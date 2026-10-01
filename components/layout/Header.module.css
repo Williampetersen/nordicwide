@@ -1,0 +1,116 @@
+.sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1.5rem;
+  pointer-events: none;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(255 255 255 / 0.86);
+  border-bottom: 1px solid transparent;
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
+  transition:
+    border-color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out);
+}
+
+.compact {
+  border-bottom-color: var(--color-border);
+  box-shadow: 0 6px 24px rgb(17 27 85 / 0.06);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: var(--header-height);
+  transition: height var(--duration) var(--ease-out);
+}
+
+.compact .inner {
+  height: var(--header-height-compact);
+}
+
+.logoLink {
+  display: inline-flex;
+  flex-shrink: 0;
+  text-decoration: none;
+  border-radius: var(--radius-xs);
+}
+
+.nav {
+  display: none;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.6vw - 0.75rem, 2rem);
+}
+
+.navLink {
+  position: relative;
+  display: inline-block;
+  padding: var(--space-2) 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform var(--duration) var(--ease-out);
+}
+
+.navLink:hover {
+  color: var(--color-navy);
+}
+
+.navLink[aria-current="page"] {
+  color: var(--color-navy);
+}
+
+.navLink[aria-current="page"]::after,
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cta {
+  display: none;
+}
+
+@media (min-width: 40rem) {
+  .cta {
+    display: inline-flex;
+  }
+}
+
+@media (min-width: 70rem) {
+  .nav {
+    display: block;
+  }
+}

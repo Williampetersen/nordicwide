@@ -1,0 +1,104 @@
+.panel {
+  position: relative;
+  display: grid;
+  gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+  align-items: center;
+  padding: clamp(2rem, 1rem + 5vw, 5.5rem) var(--panel-padding);
+  border-radius: var(--radius-xl);
+  background: var(--gradient-brand);
+  color: var(--color-on-dark);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Soft light accents — decorative only */
+.panel::before,
+.panel::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.panel::before {
+  top: -30%;
+  right: -10%;
+  width: 60%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(130 128 255 / 0.45) 0%, rgb(130 128 255 / 0) 65%);
+}
+
+.panel::after {
+  bottom: -40%;
+  left: -15%;
+  width: 55%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(20 16 90 / 0.6) 0%, rgb(20 16 90 / 0) 65%);
+}
+
+@media (min-width: 64rem) {
+  .panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-6);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text {
+  max-width: 34rem;
+  color: var(--color-on-dark-muted);
+  font-size: var(--fs-lead);
+}
+
+.stages {
+  display: grid;
+  gap: var(--space-3);
+  counter-reset: stage;
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  padding: clamp(1rem, 0.75rem + 1vw, 1.25rem);
+  border: 1px solid var(--color-on-dark-line);
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 0.08);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.stageNumber {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-primary-deep);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+}
+
+.stageTitle {
+  font-size: var(--fs-h4);
+  letter-spacing: -0.01em;
+}
+
+.stageText {
+  margin-top: var(--space-1);
+  color: var(--color-on-dark-muted);
+  font-size: var(--fs-sm);
+}

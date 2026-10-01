@@ -1,0 +1,139 @@
+.footer {
+  padding-block: clamp(3.5rem, 2.5rem + 4vw, 6rem) var(--space-8);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--gradient-deep);
+  color: var(--color-on-dark);
+}
+
+.columns {
+  display: grid;
+  gap: var(--space-10);
+  margin-top: clamp(3rem, 2rem + 4vw, 5rem);
+  padding-bottom: var(--space-12);
+  border-bottom: 1px solid var(--color-on-dark-line);
+}
+
+@media (min-width: 40rem) {
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 64rem) {
+  .columns {
+    grid-template-columns: 1.3fr 1.3fr 1fr 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .brand {
+    grid-column: auto;
+  }
+}
+
+.logoLink {
+  display: inline-flex;
+  text-decoration: none;
+  border-radius: var(--radius-xs);
+}
+
+.logoLink:focus-visible,
+.footer a:focus-visible {
+  outline-color: var(--color-white);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.columnTitle {
+  color: var(--color-on-dark);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.info {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--color-on-dark-subtle);
+  font-style: normal;
+}
+
+.info a {
+  color: var(--color-on-dark-subtle);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.info a:hover {
+  color: var(--color-on-dark);
+}
+
+.infoName {
+  color: var(--color-on-dark);
+  font-weight: 700;
+}
+
+.links {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.link {
+  color: var(--color-on-dark-subtle);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.link:hover {
+  color: var(--color-on-dark);
+}
+
+.legal {
+  display: grid;
+  gap: var(--space-5);
+  padding-top: var(--space-8);
+  color: var(--color-on-dark-subtle);
+  font-size: var(--fs-sm);
+}
+
+@media (min-width: 64rem) {
+  .legal {
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: var(--space-10);
+  }
+}
+
+.legalName {
+  color: var(--color-on-dark);
+  font-weight: 700;
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+
+.legalLinks a {
+  color: var(--color-on-dark-subtle);
+  text-decoration: none;
+}
+
+.legalLinks a:hover {
+  color: var(--color-on-dark);
+  text-decoration: underline;
+}
+
+.copyright {
+  color: var(--color-on-dark-subtle);
+}

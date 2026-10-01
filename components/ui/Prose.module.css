@@ -1,0 +1,45 @@
+.prose {
+  color: var(--color-text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h2 {
+  margin-top: var(--space-12);
+  color: var(--color-navy);
+  font-size: var(--fs-h3);
+}
+
+.prose h3 {
+  margin-top: var(--space-8);
+  color: var(--color-navy);
+  font-size: var(--fs-h4);
+}
+
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: var(--space-3);
+}
+
+.prose ul {
+  display: grid;
+  gap: var(--space-2);
+  padding-left: 1.25rem;
+}
+
+.prose li::marker {
+  color: var(--color-primary);
+}
+
+.prose a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.prose strong {
+  color: var(--color-navy);
+}

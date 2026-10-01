@@ -1,0 +1,15 @@
+.grid {
+  display: grid;
+  gap: clamp(1rem, 0.5rem + 1.5vw, 1.75rem);
+  margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+
+.grid > * {
+  display: grid;
+}
+
+@media (min-width: 48rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

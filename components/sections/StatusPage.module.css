@@ -1,0 +1,37 @@
+.status {
+  padding-block: clamp(4rem, 3rem + 6vw, 9rem);
+  background: var(--gradient-glow);
+  text-align: center;
+}
+
+.code {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: clamp(4.5rem, 3rem + 7vw, 8rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.title {
+  margin-top: var(--space-4);
+  font-size: var(--fs-h2);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text {
+  max-width: 34rem;
+  margin: var(--space-4) auto 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+}

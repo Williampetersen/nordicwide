@@ -1,0 +1,143 @@
+.layout {
+  display: grid;
+  gap: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  .intro {
+    position: sticky;
+    top: calc(var(--header-height-compact) + var(--space-8));
+  }
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.approach {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.approachTitle {
+  font-size: var(--fs-h4);
+}
+
+.included {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.includedItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.includedNumber {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-tint);
+  color: var(--color-primary-deep);
+  font-weight: 800;
+}
+
+.includedTitle {
+  font-size: var(--fs-h4);
+  letter-spacing: -0.015em;
+}
+
+.includedText {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.related {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+
+@media (min-width: 64rem) {
+  .related {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.relatedCard {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  height: 100%;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+  text-decoration: none;
+  transition:
+    border-color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out);
+}
+
+.relatedCard:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.relatedImage {
+  position: relative;
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.relatedImg {
+  object-fit: cover;
+}
+
+.relatedBody {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.relatedTitle {
+  color: var(--color-navy);
+  font-weight: 800;
+}
+
+.relatedText {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+
+.relatedArrow {
+  color: var(--color-primary);
+  transition: transform var(--duration) var(--ease-out);
+}
+
+.relatedCard:hover .relatedArrow {
+  transform: translateX(3px);
+}

@@ -1,0 +1,142 @@
+.section {
+  padding-bottom: var(--section-space);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr);
+    gap: var(--space-8);
+  }
+
+  .aside {
+    position: sticky;
+    top: calc(var(--header-height-compact) + var(--space-8));
+  }
+}
+
+.formCard {
+  padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
+}
+
+.formTitle {
+  margin-bottom: var(--space-6);
+  font-size: var(--fs-h3);
+}
+
+.aside {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.detailsCard {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--gradient-deep);
+  color: var(--color-on-dark);
+}
+
+.stepsCard {
+  display: grid;
+  gap: var(--space-5);
+  padding: var(--space-8) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+.asideTitle {
+  font-size: var(--fs-h4);
+}
+
+.details {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.details dt {
+  color: var(--color-on-dark-subtle);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.details dd {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.details a {
+  text-decoration: none;
+}
+
+.details a:hover {
+  text-decoration: underline;
+}
+
+.details a:focus-visible {
+  outline-color: var(--color-white);
+}
+
+.support {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-on-dark-line);
+  color: var(--color-on-dark-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.flag {
+  width: 1.5rem;
+  height: auto;
+  border-radius: 3px;
+}
+
+.steps {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+}
+
+.stepNumber {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--fs-sm);
+  font-weight: 800;
+}
+
+.stepTitle {
+  font-weight: 700;
+}
+
+.stepText {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}

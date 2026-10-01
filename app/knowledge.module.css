@@ -1,0 +1,75 @@
+/* Shared styles for the Knowledge pages (blog, resources, case studies). */
+
+.section {
+  padding-bottom: var(--section-space);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 48rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card,
+.linkCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+}
+
+.linkCard {
+  text-decoration: none;
+  transition:
+    border-color var(--duration) var(--ease-out),
+    box-shadow var(--duration) var(--ease-out),
+    transform var(--duration) var(--ease-out);
+}
+
+.linkCard:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.meta {
+  color: var(--color-text-subtle);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.cardTitle {
+  font-size: var(--fs-h3);
+  letter-spacing: -0.02em;
+}
+
+.cardText {
+  color: var(--color-text-muted);
+}
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-2);
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.cardArrow {
+  transition: transform var(--duration) var(--ease-out);
+}
+
+.linkCard:hover .cardArrow {
+  transform: translateX(3px);
+}

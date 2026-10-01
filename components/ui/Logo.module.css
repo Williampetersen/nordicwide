@@ -1,0 +1,33 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--color-navy);
+}
+
+.mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+}
+
+.wordmark {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wide {
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.light {
+  color: var(--color-on-dark);
+}
+
+.light .wide {
+  color: var(--color-on-dark-muted);
+}

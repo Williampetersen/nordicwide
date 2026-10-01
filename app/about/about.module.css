@@ -1,0 +1,23 @@
+.story {
+  display: grid;
+  gap: var(--space-6);
+}
+
+@media (min-width: 64rem) {
+  .story {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-16);
+  }
+}
+
+.storyTitle {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--tracking-tight);
+}
+
+.storyText {
+  display: grid;
+  gap: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+}

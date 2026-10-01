@@ -1,0 +1,60 @@
+.inner {
+  display: grid;
+  gap: clamp(2.5rem, 2rem + 2vw, 4rem);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .inner {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  .intro {
+    position: sticky;
+    top: calc(var(--header-height-compact) + var(--space-8));
+  }
+}
+
+/* On small screens the "Still have questions?" card moves below the accordion. */
+.intro {
+  display: contents;
+}
+
+.contactCard {
+  order: 1;
+}
+
+@media (min-width: 64rem) {
+  .intro {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .contactCard {
+    order: 0;
+  }
+}
+
+.contactCard {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.contactTitle {
+  font-weight: 800;
+  font-size: var(--fs-h4);
+}
+
+.contactText {
+  color: var(--color-text-muted);
+}
+
+.contactText a {
+  color: var(--color-navy);
+  font-weight: 700;
+  white-space: nowrap;
+}

@@ -1,0 +1,311 @@
+.dashboard {
+  display: grid;
+  gap: var(--space-5);
+  padding: clamp(1rem, 0.5rem + 2vw, 1.75rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-white);
+  box-shadow: var(--shadow-lg);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.title {
+  font-size: var(--fs-h4);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+.period {
+  color: var(--color-text-subtle);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: #fff6e0;
+  color: #7a4b00;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Stat tiles */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+@media (min-width: 40rem) {
+  .metrics {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.metric {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.metricLabel {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.metricValue {
+  color: var(--color-navy);
+  font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Chart cards */
+.charts {
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .charts {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+}
+
+.chartCard {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.chartTitle {
+  color: var(--color-navy);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+/* Line chart: HTML labels + stretched SVG so text never scales with the plot */
+.lineChart {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr;
+  grid-template-rows: minmax(10rem, 1fr) auto;
+  column-gap: var(--space-2);
+  padding-right: 1.75rem;
+}
+
+.yAxis {
+  position: relative;
+}
+
+.yAxis span {
+  position: absolute;
+  right: 0;
+  transform: translateY(50%);
+  color: var(--color-text-subtle);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.plot {
+  position: relative;
+}
+
+.gridline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.area {
+  fill: var(--color-primary);
+  fill-opacity: 0.1;
+}
+
+.line {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hit {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  transform: translate(-50%, -50%);
+}
+
+.hoverDot {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-white);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 0.25rem);
+  left: 50%;
+  z-index: 2;
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius-xs);
+  background: var(--color-navy);
+  color: var(--color-white);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.hit:hover .hoverDot,
+.hit:hover .tooltip {
+  opacity: 1;
+}
+
+.endDot {
+  position: absolute;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-white);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.endLabel {
+  position: absolute;
+  left: calc(100% + 0.5rem);
+  color: var(--color-navy);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.xAxis {
+  position: relative;
+  grid-column: 2;
+  height: 1.5rem;
+}
+
+.xAxis span {
+  position: absolute;
+  top: 0.5rem;
+  transform: translateX(-50%);
+  color: var(--color-text-subtle);
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+/* Bar chart: one series, one color, value at the tip */
+.bars {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.barRow {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.barLabel {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.barTrack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-right: 2rem;
+}
+
+.bar {
+  height: 0.75rem;
+  border-radius: 0 4px 4px 0;
+  background: var(--color-primary);
+}
+
+.barValue {
+  color: var(--color-navy);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  color: var(--color-text-subtle);
+  font-size: var(--fs-xs);
+}
+
+.details {
+  font-size: var(--fs-xs);
+}
+
+.details summary {
+  width: fit-content;
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.table {
+  width: 100%;
+  margin-top: var(--space-3);
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.table thead th {
+  color: var(--color-text-muted);
+}
+
+.table tbody th {
+  font-weight: 600;
+}
