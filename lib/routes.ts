@@ -5,6 +5,7 @@ export const routes = {
   services: "/services",
   service: (slug: string) => `/services/${slug}`,
   growthStrategy: "/growth-strategy",
+  calculator: "/google-ads-calculator",
   about: "/about",
   faq: "/faq",
   contact: "/contact",

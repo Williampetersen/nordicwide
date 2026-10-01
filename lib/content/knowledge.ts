@@ -16,6 +16,11 @@ export const testimonials: Testimonial[] = [];
 
 export const resources: Resource[] = [
   {
+    title: "Google Ads investment calculator",
+    description: "Compare your Google Ads costs with and without the investment plan, year by year.",
+    href: routes.calculator,
+  },
+  {
     title: "How the growth model works",
     description: "The four steps from understanding your business to scaling what works.",
     href: routes.howItWorks,
