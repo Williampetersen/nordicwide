@@ -2,38 +2,25 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { routes } from "@/lib/routes";
-import { calculateInvestmentPlan, sanitizeAmount } from "@/lib/investment/calculator";
+import { calculateInvestmentPlan, sanitizeBudget } from "@/lib/investment/calculator";
 import type { CurrencyCode } from "@/lib/investment/currencies";
-import type { ProjectionYears } from "@/lib/investment/plans";
-import { BudgetStep } from "./BudgetStep";
-import { ComparisonPanels } from "./ComparisonPanels";
+import { routes } from "@/lib/routes";
+import { BudgetStep, type BudgetChoice } from "./BudgetStep";
 import { CurrencyStep } from "./CurrencyStep";
-import { ManagementFeeStep } from "./ManagementFeeStep";
-import { PlanSummary } from "./PlanSummary";
 import { ProgressBar } from "./ProgressBar";
-import { ProjectionStep } from "./ProjectionStep";
 import { RefundSummary } from "./RefundSummary";
-import { TermsSummary } from "./TermsSummary";
-import { YearlyProjectionTable } from "./YearlyProjectionTable";
+import { ResultSummary } from "./ResultSummary";
 import { cn } from "./cn";
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = 2;
 
-const TITLES = [
-  "Choose your currency",
-  "What is your daily Google Ads budget?",
-  "Do you currently pay a monthly Google Ads management fee?",
-  "How long would you like to see the projection?",
-];
+const TITLES = ["Choose your currency", "What is your daily Google Ads budget?"];
 
 export function InvestmentWizard() {
   const [step, setStep] = useState(0);
   const [currency, setCurrency] = useState<CurrencyCode | null>(null);
-  const [dailyBudget, setDailyBudget] = useState<number | null>(null);
-  const [hasFee, setHasFee] = useState<boolean | null>(null);
-  const [fee, setFee] = useState("");
-  const [years, setYears] = useState<ProjectionYears | null>(null);
+  const [choice, setChoice] = useState<BudgetChoice>(null);
+  const [custom, setCustom] = useState("");
 
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
@@ -43,52 +30,40 @@ export function InvestmentWizard() {
       firstRender.current = false;
       return;
     }
-    headingRef.current?.focus({ preventScroll: false });
+    headingRef.current?.focus();
   }, [step]);
 
-  const monthlyFee = hasFee ? sanitizeAmount(fee) : 0;
+  const dailyBudget = choice === "custom" ? sanitizeBudget(custom) : (choice ?? 0);
 
-  const canContinue = [
-    currency !== null,
-    dailyBudget !== null,
-    hasFee === false || (hasFee === true && monthlyFee > 0),
-    years !== null,
-  ][step];
+  const canContinue = step === 0 ? currency !== null : dailyBudget > 0;
 
   const result = useMemo(() => {
-    if (step < TOTAL_STEPS || !currency || dailyBudget === null || years === null) return null;
-    return calculateInvestmentPlan({ currency, dailyBudget, monthlyManagementFee: monthlyFee, years });
-  }, [step, currency, dailyBudget, monthlyFee, years]);
+    if (step < TOTAL_STEPS || !currency || dailyBudget <= 0) return null;
+    return calculateInvestmentPlan({ currency, dailyBudget });
+  }, [step, currency, dailyBudget]);
 
   const startOver = () => {
     setStep(0);
     setCurrency(null);
-    setDailyBudget(null);
-    setHasFee(null);
-    setFee("");
-    setYears(null);
+    setChoice(null);
+    setCustom("");
   };
 
   const next = () => canContinue && setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   const back = () => setStep((s) => Math.max(s - 1, 0));
 
-  const isResult = step >= TOTAL_STEPS && result !== null;
-
   return (
     <div className={cn("wizard")}>
       <header className={cn("wizard-header")}>
-        <ProgressBar current={isResult ? TOTAL_STEPS : step} total={TOTAL_STEPS} />
+        <ProgressBar current={result ? TOTAL_STEPS : step} total={TOTAL_STEPS} />
       </header>
 
-      {isResult ? (
+      {result ? (
         <div className={cn("result fade-in")} key="result">
           <h2 ref={headingRef} tabIndex={-1} className={cn("visually-hidden")}>
             Your Google Ads investment calculation
           </h2>
-          <PlanSummary result={result} />
-          <ComparisonPanels result={result} />
-          <YearlyProjectionTable result={result} />
-          <TermsSummary />
+          <ResultSummary result={result} />
           <RefundSummary result={result} />
 
           <p className={cn("disclaimer")}>
@@ -115,20 +90,15 @@ export function InvestmentWizard() {
           </h2>
 
           {step === 0 && <CurrencyStep value={currency} onChange={setCurrency} />}
-          {step === 1 && currency && <BudgetStep currency={currency} value={dailyBudget} onChange={setDailyBudget} />}
-          {step === 2 && currency && (
-            <ManagementFeeStep
+          {step === 1 && currency && (
+            <BudgetStep
               currency={currency}
-              hasFee={hasFee}
-              fee={fee}
-              onHasFeeChange={(v) => {
-                setHasFee(v);
-                if (!v) setFee("");
-              }}
-              onFeeChange={setFee}
+              choice={choice}
+              custom={custom}
+              onChoiceChange={setChoice}
+              onCustomChange={setCustom}
             />
           )}
-          {step === 3 && <ProjectionStep value={years} onChange={setYears} />}
 
           <div className={cn("actions")}>
             {step > 0 ? (
@@ -145,7 +115,7 @@ export function InvestmentWizard() {
                 </button>
               )}
               <button type="button" className={cn("btn btn-primary")} onClick={next} disabled={!canContinue}>
-                {step === TOTAL_STEPS - 1 ? "See calculation" : "Continue"}
+                {step === TOTAL_STEPS - 1 ? "See result" : "Continue"}
               </button>
             </div>
           </div>

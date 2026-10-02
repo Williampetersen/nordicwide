@@ -10,7 +10,7 @@ export const dynamic = "force-static";
 export const metadata = createPageMetadata({
   title: "Google Ads Investment Calculator",
   description:
-    "Estimate your Google Ads costs with and without the Nordic Wide investment plan: choose your currency, daily budget, management fee and period to see a year-by-year comparison.",
+    "Estimate your Google Ads costs with and without the Nordic Wide investment plan: choose your currency and daily budget to see your yearly cost and what the plan covers.",
   path: routes.calculator,
 });
 
@@ -20,7 +20,7 @@ export default function GoogleAdsCalculatorPage() {
       <PageHero
         eyebrow="Calculator"
         title="What the Investment Plan Means for Your Google Ads"
-        lead="Answer four short questions to see your estimated advertising costs with and without the Nordic Wide investment plan, year by year."
+        lead="Choose your currency and daily Google Ads budget to see what you pay today and what the Nordic Wide investment plan covers."
         breadcrumbs={[{ label: "Google Ads Calculator", href: routes.calculator }]}
       />
       <section className={styles.section} aria-label="Google Ads investment calculator">
