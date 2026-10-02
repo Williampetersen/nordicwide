@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addMonths, calculateInvestmentPlan, sanitizeBudget } from "./calculator";
+import { calculateInvestmentPlan, sanitizeBudget } from "./calculator";
 
 describe("calculateInvestmentPlan", () => {
   it("100/day: 36,500 a year, 18,250 investment (50%), full yearly cost covered", () => {
@@ -40,18 +40,9 @@ describe("calculateInvestmentPlan", () => {
     }
   });
 
-  it("sets the coverage date 12 months ahead", () => {
-    const r = calculateInvestmentPlan({ currency: "AUD", dailyBudget: 100, startDate: new Date(2026, 2, 15) });
-    expect([r.coverageDate.getFullYear(), r.coverageDate.getMonth(), r.coverageDate.getDate()]).toEqual([2027, 2, 15]);
-  });
 });
 
 describe("helpers", () => {
-  it("clamps leap-day when adding months", () => {
-    const d = addMonths(new Date(2028, 1, 29), 12);
-    expect([d.getFullYear(), d.getMonth(), d.getDate()]).toEqual([2029, 1, 28]);
-  });
-
   it("sanitizes budgets", () => {
     expect(sanitizeBudget("abc")).toBe(0);
     expect(sanitizeBudget(-1)).toBe(0);

@@ -1,17 +1,16 @@
 import type { CalculationResult } from "@/lib/investment/calculator";
-import { formatDate, formatMoney } from "@/lib/investment/format";
+import { formatMoney } from "@/lib/investment/format";
 import { WAITING_MONTHS } from "@/lib/investment/plan";
 import { cn } from "./cn";
 
 const STEPS = [
   { title: "Invest once", text: "You invest 50% of your yearly Google Ads cost, one time." },
-  { title: "Wait 12 months", text: "You pay your Google Ads as normal during the first 12 months." },
-  { title: "We cover your ads", text: "After 12 months, Nordic Wide covers your Google Ads every year." },
+  { title: "Wait 12 months", text: "Counted from the date your agreement and investment start, you pay Google Ads as normal for 12 months." },
+  { title: "We cover your ads", text: "After 12 months you no longer need to pay Google Ads; Nordic Wide covers it every year." },
 ];
 
 export function ResultSummary({ result }: { result: CalculationResult }) {
   const money = (v: number) => formatMoney(v, result.currency);
-  const date = formatDate(result.coverageDate);
 
   return (
     <>
@@ -37,13 +36,16 @@ export function ResultSummary({ result }: { result: CalculationResult }) {
           <p className={cn("big-result")}>{money(result.investmentAmount)}</p>
           <ul className={cn("bullets")}>
             <li>
-              First {WAITING_MONTHS} months: you pay Google Ads as normal ({money(result.annualAdsCost)})
+              The {WAITING_MONTHS} months start from the date your agreement and investment begin
             </li>
             <li>
-              From {date}: Nordic Wide covers <strong>{money(result.coveragePerYear)}</strong> of Google Ads every year
+              During those {WAITING_MONTHS} months you pay Google Ads as normal ({money(result.annualAdsCost)})
+            </li>
+            <li>
+              After {WAITING_MONTHS} months you no longer need to pay Google Ads: Nordic Wide covers{" "}
+              <strong>{money(result.coveragePerYear)}</strong> every year
             </li>
             <li>Your daily coverage stays fixed at {money(result.dailyBudget)} / day</li>
-            <li>Your management fee becomes {money(0)} after joining</li>
           </ul>
         </section>
       </div>
@@ -84,15 +86,18 @@ export function ResultSummary({ result }: { result: CalculationResult }) {
 
       <section className={cn("card")} aria-labelledby="details-title">
         <h3 id="details-title" className={cn("eyebrow")}>
-          Plan details
+          Investment rules
         </h3>
         <ul className={cn("bullets")}>
-          <li>One-time investment</li>
-          <li>{WAITING_MONTHS}-month waiting period before coverage begins</li>
-          <li>Coverage is limited to the daily budget you selected</li>
-          <li>The selected daily coverage remains fixed</li>
-          <li>The plan remains valid while the investment remains with Nordic Wide</li>
-          <li>Contractual terms are governed by the final agreement</li>
+          <li>The investment is paid <strong>one time</strong> and is 50% of your yearly Google Ads cost.</li>
+          <li>The {WAITING_MONTHS}-month waiting period starts from the date your agreement and investment begin.</li>
+          <li>During the waiting period you continue to pay your Google Ads as normal.</li>
+          <li>After {WAITING_MONTHS} months you no longer need to pay Google Ads, up to the daily budget you selected.</li>
+          <li>Coverage is limited to your selected daily budget of {money(result.dailyBudget)} / day.</li>
+          <li>Your selected daily coverage stays fixed; it does not increase from year to year.</li>
+          <li>The plan remains valid while your investment remains with Nordic Wide.</li>
+          <li>Your investment amount of {money(result.investmentAmount)} is the amount refunded (see Refund below).</li>
+          <li>Contractual terms are governed by the final agreement.</li>
         </ul>
       </section>
     </>

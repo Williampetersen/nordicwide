@@ -23,7 +23,3 @@ export function formatMoney(value: number, currency: CurrencyCode): string {
   const normalised = Math.abs(safe) < 0.5 ? 0 : safe;
   return formatterFor(currency).format(normalised).replace(/ /g, " ");
 }
-
-export function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(date);
-}
