@@ -1,5 +1,5 @@
 import { cn } from "./cn";
-﻿interface ProgressBarProps {
+interface ProgressBarProps {
   /** 0-based index of the current step; equal to `total` on the result page. */
   current: number;
   total: number;

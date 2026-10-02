@@ -1,5 +1,5 @@
 import { cn } from "./cn";
-﻿import type { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface OptionCardProps {
   selected: boolean;
@@ -20,7 +20,7 @@ export function OptionCard({ selected, onSelect, children, className = "" }: Opt
     >
       {children}
       <span className={cn("option-check")} aria-hidden="true">
-        {selected ? "âœ“" : ""}
+        {selected ? "✓" : ""}
       </span>
     </button>
   );
