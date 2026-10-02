@@ -7,6 +7,7 @@ import type { CurrencyCode } from "@/lib/investment/currencies";
 import { routes } from "@/lib/routes";
 import { BudgetStep, type BudgetChoice } from "./BudgetStep";
 import { CurrencyStep } from "./CurrencyStep";
+import { FaqSection } from "./FaqSection";
 import { ProgressBar } from "./ProgressBar";
 import { RefundSummary } from "./RefundSummary";
 import { ResultSummary } from "./ResultSummary";
@@ -123,6 +124,8 @@ export function InvestmentWizard() {
       )}
 
       <p className={cn("privacy")}>No sign-up, no personal details. Everything is calculated in your browser.</p>
+
+      <FaqSection />
     </div>
   );
 }

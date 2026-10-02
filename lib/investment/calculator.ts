@@ -1,5 +1,5 @@
 import type { CurrencyCode } from "./currencies";
-import { DAYS_PER_YEAR, INVESTMENT_SHARE, MAX_DAILY_BUDGET, WAITING_MONTHS } from "./plan";
+import { DAYS_PER_YEAR, INVESTMENT_SHARE, MAX_DAILY_BUDGET, SAVINGS_YEARS, WAITING_MONTHS } from "./plan";
 
 export interface CalculationInput {
   currency: CurrencyCode;
@@ -18,6 +18,13 @@ export interface CalculationResult {
   /** What Nordic Wide covers each year once coverage begins (the full yearly cost). */
   coveragePerYear: number;
   coverageDate: Date;
+  savingsYears: number;
+  /** Google Ads cost over the savings period if the customer pays it all. */
+  totalWithoutPlan: number;
+  /** Investment plus the first year of Google Ads (the years after are covered). */
+  totalWithPlan: number;
+  /** totalWithoutPlan − totalWithPlan. */
+  potentialSavings: number;
 }
 
 /** Coerces any value into a finite, whole, non-negative number within limits. */
@@ -41,13 +48,20 @@ export function addMonths(date: Date, months: number): Date {
 export function calculateInvestmentPlan(input: CalculationInput): CalculationResult {
   const dailyBudget = sanitizeBudget(input.dailyBudget);
   const annualAdsCost = dailyBudget * DAYS_PER_YEAR;
+  const investmentAmount = Math.round(annualAdsCost * INVESTMENT_SHARE);
+  const totalWithoutPlan = annualAdsCost * SAVINGS_YEARS;
+  const totalWithPlan = investmentAmount + annualAdsCost;
 
   return {
     currency: input.currency,
     dailyBudget,
     annualAdsCost,
-    investmentAmount: Math.round(annualAdsCost * INVESTMENT_SHARE),
+    investmentAmount,
     coveragePerYear: annualAdsCost,
     coverageDate: addMonths(input.startDate ?? new Date(), WAITING_MONTHS),
+    savingsYears: SAVINGS_YEARS,
+    totalWithoutPlan,
+    totalWithPlan,
+    potentialSavings: totalWithoutPlan - totalWithPlan,
   };
 }

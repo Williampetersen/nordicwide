@@ -9,6 +9,14 @@ describe("calculateInvestmentPlan", () => {
     expect(r.coveragePerYear).toBe(36_500);
   });
 
+  it("100/day over 5 years: 182,500 without, 54,750 with, saves 127,750", () => {
+    const r = calculateInvestmentPlan({ currency: "AUD", dailyBudget: 100 });
+    expect(r.savingsYears).toBe(5);
+    expect(r.totalWithoutPlan).toBe(182_500);
+    expect(r.totalWithPlan).toBe(54_750);
+    expect(r.potentialSavings).toBe(127_750);
+  });
+
   it.each([
     [50, 18_250, 9_125],
     [150, 54_750, 27_375],
