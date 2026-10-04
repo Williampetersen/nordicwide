@@ -48,6 +48,21 @@
 }
 @keyframes drift { to { background-position: 28px 28px; } }
 
+.startBtn {
+  position: absolute; z-index: 3; left: 50%; top: 72%; transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 14px; padding: 16px 28px 16px 18px; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 700; font-size: 1.05rem; color: var(--color-navy); background: #fff; border: 0;
+  box-shadow: 0 0 0 0 rgb(255 255 255 / 0.6), 0 18px 40px rgb(0 0 0 / 0.4); animation: startPulse 2s ease-out infinite;
+  transition: transform 0.2s;
+}
+.startBtn:hover { transform: translate(-50%, -50%) scale(1.06); }
+.startBtn:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.startIcon {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--color-primary); color: #fff;
+  display: inline-flex; align-items: center; justify-content: center; padding-left: 3px;
+}
+@keyframes startPulse { 0% { box-shadow: 0 0 0 0 rgb(255 255 255 / 0.55), 0 18px 40px rgb(0 0 0 / 0.4); } 100% { box-shadow: 0 0 0 26px rgb(255 255 255 / 0), 0 18px 40px rgb(0 0 0 / 0.4); } }
+
 .svg { position: relative; display: block; width: 100%; height: auto; }
 .tallOnly { display: none; }
 @media (max-width: 720px) {
@@ -219,6 +234,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage::before, .linkAds, .linkCover, .nodeActive .ring, .info, .badge, .recovered { animation: none; }
+  .startBtn, .stage::before, .linkAds, .linkCover, .nodeActive .ring, .info, .badge, .recovered { animation: none; }
   .chip, .stepCard, .kpi, .play, .ghost, .nodeInner { transition: none; }
 }

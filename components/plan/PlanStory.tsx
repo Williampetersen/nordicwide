@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
 import { cx } from "@/lib/cx";
 import { sanitizeBudget } from "@/lib/investment/calculator";
@@ -29,18 +29,6 @@ const BUDGETS = [100, 150, 200, 250] as const;
 const SPEEDS = [1, 2, 4] as const;
 
 type NodeId = "company" | "nordic" | "google";
-
-function useMedia(query: string): boolean {
-  return useSyncExternalStore(
-    (cb) => {
-      const m = window.matchMedia(query);
-      m.addEventListener("change", cb);
-      return () => m.removeEventListener("change", cb);
-    },
-    () => window.matchMedia(query).matches,
-    () => false,
-  );
-}
 
 function NodeIcon({ id }: { id: NodeId }) {
   if (id === "company") {
@@ -155,47 +143,57 @@ const NODE_TEXT: Record<NodeId, (daily: number) => { title: string; text: string
 };
 
 interface PlanStoryProps {
-  /** Start the scene frozen at this second (0 to 28) instead of auto-playing. */
+  /** Start the scene at this second (0 to 28). The scene never plays by itself. */
   startAt?: number;
 }
 
 export function PlanStory({ startAt }: PlanStoryProps = {}) {
   const [sec, setSec] = useState(startAt ?? 0);
-  const [userPlay, setUserPlay] = useState<boolean | null>(startAt === undefined ? null : false);
+  // Nothing moves until the visitor clicks Play (or a step card).
+  const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState<number>(1);
   const [daily, setDaily] = useState<number>(200);
   const [customOpen, setCustomOpen] = useState(false);
   const [hover, setHover] = useState<NodeId | null>(null);
-  const [visible, setVisible] = useState(false);
-  const rootRef = useRef<HTMLElement>(null);
+  const secRef = useRef(sec);
 
-  const reduced = useMedia("(prefers-reduced-motion: reduce)");
-  const playing = userPlay ?? !reduced;
-  const running = playing && visible;
-
-  // Only animate while the stage is on screen.
   useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.25 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    secRef.current = sec;
+  }, [sec]);
 
-  // Real-time clock.
+  // Real-time clock: runs only while playing and stops at the end of the story.
   useEffect(() => {
-    if (!running) return;
+    if (!playing) return;
     let raf = 0;
+    let cur = secRef.current;
     let last = performance.now();
     const tick = (now: number) => {
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
-      setSec((s) => (s + dt * speed) % TIMELINE.total);
+      cur += dt * speed;
+      if (cur >= TIMELINE.total) {
+        setSec(TIMELINE.total);
+        setPlaying(false);
+        return;
+      }
+      setSec(cur);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [running, speed]);
+  }, [playing, speed]);
+
+  const finished = sec >= TIMELINE.total - 0.01;
+  const started = sec > 0.01;
+
+  const togglePlay = () => {
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+    if (finished) setSec(0);
+    setPlaying(true);
+  };
 
   const layouts = useMemo(() => ({ wide: makeLayout(false), tall: makeLayout(true) }), []);
   const phase = phaseAt(sec);
@@ -222,7 +220,7 @@ export function PlanStory({ startAt }: PlanStoryProps = {}) {
 
   const jump = (s: number) => {
     setSec(s);
-    setUserPlay(true);
+    setPlaying(true);
   };
 
   const withWidth = Math.min(100, (money.withPlan / (money.annual * 2)) * 100);
@@ -298,7 +296,7 @@ export function PlanStory({ startAt }: PlanStoryProps = {}) {
   };
 
   return (
-    <section ref={rootRef} className={styles.story} aria-label="Animated explanation of the investment plan">
+    <section className={styles.story} aria-label="Animated explanation of the investment plan">
       <div className={styles.bar}>
         <div className={styles.budget} role="group" aria-label="Daily Google Ads budget">
           <span className={styles.barLabel}>Daily Google Ads budget</span>
@@ -336,6 +334,15 @@ export function PlanStory({ startAt }: PlanStoryProps = {}) {
       </div>
 
       <div className={styles.stage}>
+        {!started && !playing && (
+          <button type="button" className={styles.startBtn} onClick={togglePlay}>
+            <span className={styles.startIcon} aria-hidden="true">
+              ▶
+            </span>
+            <span>Click to start the animation</span>
+          </button>
+        )}
+
         <div className={styles.clock} style={{ "--p": month / 24 } as CSSProperties} aria-hidden="true">
           <div className={styles.clockInner}>
             <strong>{monthLabel}</strong>
@@ -367,8 +374,8 @@ export function PlanStory({ startAt }: PlanStoryProps = {}) {
       </p>
 
       <div className={styles.controls}>
-        <button type="button" className={styles.play} onClick={() => setUserPlay(!playing)} aria-label={playing ? "Pause animation" : "Play animation"}>
-          {playing ? "❚❚ Pause" : "▶ Play"}
+        <button type="button" className={styles.play} onClick={togglePlay} aria-label={playing ? "Pause animation" : finished ? "Replay animation" : "Play animation"}>
+          {playing ? "❚❚ Pause" : finished ? "↺ Replay" : started ? "▶ Continue" : "▶ Play animation"}
         </button>
         <button type="button" className={styles.ghost} onClick={() => jump(0)}>
           ↺ Restart
@@ -391,7 +398,7 @@ export function PlanStory({ startAt }: PlanStoryProps = {}) {
             aria-valuetext={`${monthLabel} of 24`}
             style={{ "--v": `${(sec / TIMELINE.total) * 100}%` } as CSSProperties}
             onChange={(e) => {
-              setUserPlay(false);
+              setPlaying(false);
               setSec(Number(e.target.value));
             }}
           />
