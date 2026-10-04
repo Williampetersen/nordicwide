@@ -7,6 +7,7 @@ export const routes = {
   growthStrategy: "/growth-strategy",
   calculator: "/google-ads-calculator",
   investors: "/investors",
+  investmentPlan: "/investment-plan",
   about: "/about",
   faq: "/faq",
   contact: "/contact",

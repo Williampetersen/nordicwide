@@ -18,6 +18,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Growth Strategy", href: routes.growthStrategy },
       { label: "Google Ads Calculator", href: routes.calculator },
       { label: "Investors", href: routes.investors },
+      { label: "How the Plan Works", href: routes.investmentPlan },
     ],
   },
   {
