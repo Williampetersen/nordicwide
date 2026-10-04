@@ -50,3 +50,35 @@ describe("helpers", () => {
     expect(sanitizeBudget(1e12)).toBe(1_000_000);
   });
 });
+
+describe("investor metrics", () => {
+  it("100/day breaks even in month 18 with a 7x return over 5 years", () => {
+    const r = calculateInvestmentPlan({ currency: "USD", dailyBudget: 100 });
+    expect(r.breakEvenMonth).toBe(18);
+    expect(r.returnMultiple).toBeCloseTo(7, 5);
+    expect(r.rows).toHaveLength(5);
+    expect(r.rows[0].cumulativeSaving).toBe(-18_250);
+    expect(r.rows[4].cumulativeSaving).toBe(127_750);
+  });
+
+  it("changes with the horizon", () => {
+    const r = calculateInvestmentPlan({ currency: "USD", dailyBudget: 100, years: 3 });
+    expect(r.potentialSavings).toBe(109_500 - 54_750);
+  });
+
+  it("with growth the covered amount is fixed, so the covered share of the bill falls", () => {
+    const flat = calculateInvestmentPlan({ currency: "USD", dailyBudget: 100, years: 3 });
+    const r = calculateInvestmentPlan({ currency: "USD", dailyBudget: 100, years: 3, growth: 0.05 });
+    expect(r.rows[1].withoutPlan).toBe(38_325);
+    expect(r.rows[1].withPlan).toBe(1_825);
+    expect(r.potentialSavings).toBe(flat.potentialSavings);
+    expect(flat.coveredShare).toBeCloseTo(2 / 3, 5);
+    expect(r.coveredShare).toBeLessThan(flat.coveredShare);
+  });
+
+  it("falls back to safe defaults for invalid horizon / growth", () => {
+    const r = calculateInvestmentPlan({ currency: "USD", dailyBudget: 100, years: 99, growth: -3 });
+    expect(r.savingsYears).toBe(5);
+    expect(r.growth).toBe(0);
+  });
+});
